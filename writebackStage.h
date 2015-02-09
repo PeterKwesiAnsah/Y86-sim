@@ -2,7 +2,12 @@
 #define WRITEBACKSTAGE_H
 typedef struct 
 {
-    unsigned int predPC;
+    unsigned int stat;
+    unsigned int icode;
+    unsigned int valE;
+    unsigned int valM;
+    unsigned int dstE;
+    unsigned int dstM;
 } wregister;
 
 //prototypes for functions called from files other than fetchStage

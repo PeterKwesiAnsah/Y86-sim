@@ -167,8 +167,9 @@ bool isNegative(unsigned int source) {
  * @param   bits   bit array to place bits and formatting into
  */
 void expandBits(unsigned int source, char bits[36]) {
+  unsigned int i;
   int increment = 0;
-  for (int i = 0; i < 35; i++) {
+  for (i = 0; i < 35; i++) {
     if (i == 8 || i == 17 || i == 26) {
       bits[(34 - i)] = ' ';
       increment++;

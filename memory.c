@@ -1,12 +1,21 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <memory.h>
 #include "memory.h"
 #include "tools.h"
 
 static unsigned int memory[MEMSIZE];
 
 void clearMemory() {
-    memory[MEMSIZE] = {0};
+    memset(memory, 0, MEMSIZE);
+}
+
+void store(int address, unsigned int value, bool * memError) {
+    putByte(address, value, &memError);
+}
+
+unsigned int fetch(int address, bool * memError) {
+    return getByte(address, &memError);
 }
 
 unsigned char getByte(int address, bool * memError) {
@@ -40,12 +49,13 @@ unsigned int getWord(int address, bool * memError) {
     }
 }
 
-void putWord(int address, unsigned int value; bool * memError) {
+void putWord(int address, unsigned int value, bool * memError) {
     if ((address >= 0 && address < MEMSIZE) && ((address % 4) == 0)) {
         *memError = false;
         unsigned char bytes[4];
         get_bytes(value, bytes);
-        for (unsigned int i = 0; i < 4; i++) {
+        unsigned int i;
+        for (i = 0; i < 4; i++) {
             memory[address+i] = bytes[i];
         }
     } else {
