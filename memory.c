@@ -7,15 +7,15 @@
 static unsigned int memory[MEMSIZE];
 
 void clearMemory() {
-    memset(memory, 0, MEMSIZE);
+    memset(memory, 0, MEMSIZE * sizeof(*memory));
 }
 
 void store(int address, unsigned int value, bool * memError) {
-    putByte(address, value, memError);
+    putWord(address, value, memError);
 }
 
 unsigned int fetch(int address, bool * memError) {
-    return getByte(address, memError);
+    return getWord(address, memError);
 }
 
 unsigned char getByte(int address, bool * memError) {
