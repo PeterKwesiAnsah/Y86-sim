@@ -11,11 +11,11 @@ void clearMemory() {
 }
 
 void store(int address, unsigned int value, bool * memError) {
-    putByte(address, value, &memError);
+    putByte(address, value, memError);
 }
 
 unsigned int fetch(int address, bool * memError) {
-    return getByte(address, &memError);
+    return getByte(address, memError);
 }
 
 unsigned char getByte(int address, bool * memError) {
