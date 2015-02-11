@@ -3,7 +3,7 @@ A y86 simulation in C
 
 GNU Coding Standards: [LINK](http://www.gnu.org/prep/standards/standards.html#Writing-C)
 
-Resources:
+##Resources:
 
 y86 instruction set: [PDF](http://asulearn.appstate.edu/pluginfile.php/994575/mod_label/intro/Y86InstructionSet.pdf)
 
