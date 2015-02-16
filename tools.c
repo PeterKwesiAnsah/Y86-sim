@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
 #include "tools.h"
@@ -187,4 +188,48 @@ void expandBits(unsigned int source, char bits[36]) {
  */
 void clearBuffer(char * buff, int size) {
   memset(&buff[0], 0, size);
+}
+
+/**
+ * [strdup description]
+ * @param  str [description]
+ * @return     [description]
+ */
+char *strdup(const char *str) {
+    int n = strlen(str) + 1;
+    char *dup = malloc(n);
+    if(dup) {
+        strcpy(dup, str);
+    }
+    return dup;
+}
+
+/**
+ * [splitString description]
+ * @param  line [description]
+ * @return      [description]
+ */
+size_t splitString(char *line, char ***sve_record, char *split) {
+  if (line == NULL || sve_record == NULL) {
+    return 0;
+  }
+  size_t size = 0;
+  char *tok = strtok(line, split);
+  while (tok != NULL) {
+    char **_tmp = realloc(*sve_record, sizeof(char *) * (size + 1));
+    if (_tmp == NULL) {
+      if (*sve_record != NULL)  {
+        size_t i;
+        for (i = 0; i < size; ++i) {
+          free((*sve_record)[i]);
+        }
+        free(*sve_record);
+      }
+      return 0;
+    }
+    *sve_record = _tmp;
+    (*sve_record)[size++] = strdup(tok);
+    tok = strtok(NULL, split);
+  }
+  return size;
 }

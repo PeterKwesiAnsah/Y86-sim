@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdlib.h>
 
 unsigned int bit_mask(int low, int high);
 unsigned char * get_bytes(unsigned int source, unsigned char *bytes);
@@ -15,3 +16,5 @@ unsigned int buildWord(unsigned char byte0, unsigned char byte1,
 bool isNegative(unsigned int source);
 void expandBits(unsigned int source, char bits[36]);
 void clearBuffer(char * buff, int size);
+char *strdup(const char *str);
+size_t splitString(char *line, char ***sve_record, char *split);

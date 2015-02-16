@@ -6,28 +6,51 @@
 static unsigned int registers[REGSIZE];
 static unsigned int cc = 0x0;
 
+/**
+ * [setCC description]
+ * @param bitNumber [description]
+ * @param value     [description]
+ */
 void setCC(unsigned int bitNumber, unsigned int value) {
     if (bitNumber == OF || bitNumber == SF || bitNumber == ZF) {
         cc = setBits(bitNumber, bitNumber, cc);
     }
 }
 
+/**
+ * [getCC description]
+ * @param  bitNumber [description]
+ * @return           [description]
+ */
 unsigned int getCC(unsigned int bitNumber) {
     if (bitNumber == OF || bitNumber == SF || bitNumber == ZF) {
         return getBits(bitNumber, bitNumber, cc);
     }
 }
 
+/**
+ * [clearRegisters description]
+ */
 void clearRegisters() {
     memset(registers, 0, REGSIZE);
 }
 
+/**
+ * [getRegister description]
+ * @param  regNum [description]
+ * @return        [description]
+ */
 unsigned int getRegister(int regNum) {
     if (regNum >= 0 && regNum < REGSIZE) {
         return registers[regNum];
     }
 }
 
+/**
+ * [setRegister description]
+ * @param regNum   [description]
+ * @param regValue [description]
+ */
 void setRegister(int regNum, unsigned int regValue) {
     if (regNum >= 0 && regNum < REGSIZE) {
         registers[regNum] = regValue;
