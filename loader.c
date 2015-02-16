@@ -123,6 +123,3 @@ bool load(char *file_name) {
     return false;
 }
 
-void main() {
-    load("something.yo");
-}
