@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include "tools.h"
 #include "memory.h"
+#include "loader.h"
 
 
 /**
@@ -85,6 +86,11 @@ unsigned int extractData(char ** record) {
     }
 }
 
+/**
+ * [checkRecord description]
+ * @param  record [description]
+ * @return        [description]
+ */
 bool checkRecord(char ** record) {
     return (hasAddress(record) && hasData(record));
 }
@@ -106,7 +112,7 @@ bool load(char *file_name) {
                     size_t record_size = splitString(line, &record, " ");
                     if ((record_size > 0) && checkRecord(record)) {
                         bool memError = false;
-                        putByte(extractAddress(record), extractData(record), &memError);
+                        putWord(extractAddress(record), extractData(record), &memError);
                     } else {
                         printf("Error on line %d\n%s\n", line_count, line);
                         fclose(p_file);

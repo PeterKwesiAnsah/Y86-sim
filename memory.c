@@ -21,7 +21,7 @@ void clearMemory() {
  * @param memError [description]
  */
 void store(int address, unsigned int value, bool * memError) {
-    if (address < 0 || address > 1024) {
+    if (address < 0 || address > MEMSIZE) {
         (*memError) = true;
     } else {
         (*memError) = false;
@@ -36,7 +36,7 @@ void store(int address, unsigned int value, bool * memError) {
  * @return          [description]
  */
 unsigned int fetch(int address, bool * memError) {
-    if (address < 0 || address > 1024) {
+    if (address < 0 || address > MEMSIZE) {
         (*memError) = true;
     } else {
         (*memError) = false;
@@ -51,7 +51,7 @@ unsigned int fetch(int address, bool * memError) {
  * @return          [description]
  */
 unsigned char getByte(int address, bool * memError) {
-    if (address < 0 || address > 4095) {
+    if (address < 0 || address > MEMBYTE) {
         (*memError) = true;
         return 0;
     } else {
@@ -70,7 +70,7 @@ unsigned char getByte(int address, bool * memError) {
  * @param memError [description]
  */
 void putByte(int address, unsigned char value, bool * memError) {
-    if (address < 0 || address > 4095) {
+    if (address < 0 || address > MEMBYTE) {
         (*memError) = true;
     } else {
         (*memError) = false;
@@ -88,7 +88,7 @@ void putByte(int address, unsigned char value, bool * memError) {
  * @return          [description]
  */
 unsigned int getWord(int address, bool * memError) {
-    if (address < 0 || address > 4095 || (address % 4) != 0) {
+    if (address < 0 || address > MEMBYTE || (address % 4) != 0) {
         (*memError) = true;
         return 0;
     } else {
@@ -104,7 +104,7 @@ unsigned int getWord(int address, bool * memError) {
  * @param memError [description]
  */
 void putWord(int address, unsigned int value, bool * memError) {
-    if (address < 0 || address > 4095 || (address % 4) != 0) {
+    if (address < 0 || address > MEMBYTE || (address % 4) != 0) {
         (*memError) = true;
     } else {
         (*memError) = false;
