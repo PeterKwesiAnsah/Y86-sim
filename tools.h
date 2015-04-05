@@ -16,5 +16,12 @@ unsigned int buildWord(unsigned char byte0, unsigned char byte1,
 bool isNegative(unsigned int source);
 void expandBits(unsigned int source, char bits[36]);
 void clearBuffer(char * buff, int size);
+int lsr(int x, int n);
+unsigned char * revchararr(unsigned char * arr, unsigned short int size);
+void remchars(char *str, char c);
+bool valinarr(int val, int * arr, int size);
+void chopStart(char *str, size_t n);
+bool isxstr(char *str);
 char *strdup(const char *str);
 size_t splitString(char *line, char ***sve_record, char *split);
+int checkPipe(char * line);

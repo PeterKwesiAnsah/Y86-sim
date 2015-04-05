@@ -14,4 +14,7 @@ typedef struct
 //prototypes for functions called from files other than fetchStage
 mregister getMregister();
 void clearMregister();
+void memoryControl();
+unsigned int memoryAddr();
+void memoryStage();
 #endif

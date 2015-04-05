@@ -4,7 +4,7 @@
 #include "tools.h"
 
 static unsigned int registers[REGSIZE];
-static unsigned int cc = 0x0;
+static unsigned int cc;
 
 /**
  * [setCC description]
@@ -13,7 +13,7 @@ static unsigned int cc = 0x0;
  */
 void setCC(unsigned int bitNumber, unsigned int value) {
     if (bitNumber == OF || bitNumber == SF || bitNumber == ZF) {
-        cc = setBits(bitNumber, bitNumber, cc);
+        cc = assignOneBit(bitNumber, value, cc);
     }
 }
 

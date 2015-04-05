@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <memory.h>
+#include <assert.h>
 #include "tools.h"
+
 
 /**
  * Generates a set bitmask in range 0-31 passed by (low, high,) respectively.
@@ -190,16 +192,106 @@ void clearBuffer(char * buff, int size) {
   memset(&buff[0], 0, size);
 }
 
+
+/**
+ * [lsr description]
+ * @param  x [description]
+ * @param  n [description]
+ * @return   [description]
+ */
+int lsr(int x, int n) {
+  return (int)((unsigned int)x >> n);
+}
+
+/**
+ * [revchararr description]
+ * @param  arr  [description]
+ * @param  size [description]
+ * @return      [description]
+ */
+unsigned char * revchararr(unsigned char * arr, unsigned short int size) {
+  unsigned short int senti = 0;
+  unsigned char swap;
+  for (senti; senti < --size; senti++) {
+    swap = arr[senti];
+    arr[senti] = arr[size];
+    arr[size] = swap;
+  }
+  return arr;
+}
+
+/**
+ * [remchars description]
+ * @param str [description]
+ * @param c   [description]
+ */
+void remchars(char *str, char c) {
+  char *pr = str, *pw = str;
+  while (*pr) {
+    *pw = *pr++;
+    pw += (*pw != c);
+  }
+  *pw = '\0';
+}
+
+/**
+ * [valinarr description]
+ * @param val  [description]
+ * @param arr  [description]
+ * @param size [description]
+ */
+bool valinarr(int val, int * arr, int size) {
+  int i;
+  for (i = 0; i < size; i++) {
+    if (arr[i] == val) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * [chopStart description]
+ * @param str [description]
+ * @param n   [description]
+ */
+void chopStart(char *str, size_t n) {
+  assert(n != 0 && str != 0);
+  size_t len = strlen(str);
+  if (n > len) {
+    return;
+  }
+  memmove(str, str+n, len - n + 1);
+}
+
+/**
+ * [isxstr description]
+ * @param  str [description]
+ * @return     [description]
+ */
+bool isxstr(char *str) {
+  bool valid = true;
+  unsigned int i = 0;
+  while (str[i] != '\0') {
+    if (strchr("0123456789abcdefABCDEF", str[i]) == NULL) {
+      valid = false;
+      break;
+    }
+    i++;
+  }
+  return valid;
+}
+
 /**
  * [strdup description]
  * @param  str [description]
  * @return     [description]
  */
-char *strdup(const char *str) {
+char * strdup(const char *str) {
     int n = strlen(str) + 1;
     char *dup = malloc(n);
     if(dup) {
-        strcpy(dup, str);
+      strcpy(dup, str);
     }
     return dup;
 }
@@ -232,4 +324,14 @@ size_t splitString(char *line, char ***sve_record, char *split) {
     tok = strtok(NULL, split);
   }
   return size;
+}
+
+int checkPipe(char * line) {
+  unsigned int i;
+  for (i = 0; i < strlen(line); i++) {
+    if(line[i] == '|') {
+      return i;
+    }
+  }
+  return -1;
 }

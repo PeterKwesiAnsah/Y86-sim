@@ -13,4 +13,9 @@ typedef struct
 //prototypes for functions called from files other than fetchStage
 wregister getWregister();
 void clearWregister();
+void updateWregister(
+    unsigned int stat, unsigned int icode, unsigned int valE,
+    unsigned int valM, unsigned int dstE, unsigned int dstM
+);
+bool writebackStage();
 #endif

@@ -27,3 +27,9 @@
 *.i*86
 *.x86_64
 *.hex
+
+sftp-config.json
+run.pl
+Inputs/
+Tests/
+*.yo

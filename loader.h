@@ -5,6 +5,6 @@ void discardRest(char *line, FILE * p_file);
 bool hasAddress(char ** record);
 bool hasData(char ** record);
 unsigned int extractAddress(char ** record);
-unsigned int extractData(char ** record);
+size_t extractData(char ** record, unsigned char * data_record);
 bool checkRecord(char ** record);
-bool load(char *file_name);
+bool load(int argv, char * args[]);
