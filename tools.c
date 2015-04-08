@@ -160,7 +160,7 @@ unsigned int buildWord(
  * @param  source integer to check for negativity
  * @return        1 if negative, otherwise 0
  */
-bool isNegative(unsigned int source) {
+bool isNegative(int source) {
   return (source & (1 << (sizeof(source) * 8 - 1)));
 }
 

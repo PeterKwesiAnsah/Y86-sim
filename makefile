@@ -1,7 +1,7 @@
-CC = gcc
+CC = gcc -g -std=c99
 OBJ = main.o decodeStage.o executeStage.o fetchStage.o memoryStage.o writebackStage.o memory.o registers.o dump.o tools.o loader.o
 yess: $(OBJ)
-	$(CC) -g -std=c99 -o yess $(OBJ)
+	$(CC) -o yess $(OBJ)
 main.o: main.c tools.h memory.h dump.h
 decodeStage.o: decodeStage.c decodeStage.h tools.h forwarding.h
 executeStage.o: executeStage.c executeStage.h tools.h memoryStage.h writebackStage.h

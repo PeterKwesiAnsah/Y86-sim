@@ -90,7 +90,8 @@ bool checkRecord(char ** record) {
         if (hasData(record)) {
             valid = (
                 (strlen(record[1]) % 2 == 0) &&
-                (extractAddress(record) == senti_addr)
+                (extractAddress(record) == senti_addr) &&
+                valid
             );
         }
         valid = (
@@ -159,7 +160,7 @@ bool load(int argv, char * args[]) {
                                 bool memError = false;
                                 putByte(p_addr, record_data[i], &memError);
                             }
-                            senti_addr = p_addr;
+                            senti_addr = ((p_addr > senti_addr) ? p_addr : senti_addr);
                         } else {
                             printf("Error on line %d\n%s\n", line_count, line_current);
                             fclose(p_file);

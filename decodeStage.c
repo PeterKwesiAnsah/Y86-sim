@@ -22,7 +22,13 @@ dregister getDregister() {
  * [clearDregister description]
  */
 void clearDregister() {
-    clearBuffer((char *) &D, sizeof(D));
+    D.stat = S_AOK;
+    D.icode = I_NOP;
+    D.ifun = 0;
+    D.rA = RNONE;
+    D.rB = RNONE;
+    D.valC = 0;
+    D.valP = 0;
 }
 
 /**

@@ -18,6 +18,7 @@
 unsigned int getRegister(int regNum);
 void setRegister(int regNum, unsigned int regValue);
 void clearRegisters();
+void clearCC();
 void setCC(unsigned int bitNumber, unsigned int value);
 unsigned int getCC(unsigned int bitNumber);
 #endif

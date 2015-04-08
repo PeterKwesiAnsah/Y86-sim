@@ -6,13 +6,13 @@
 #include "instructions.h"
 #include "tools.h"
 
-static unsigned int (*funcptr[16])();
+static int (*funcptr[16])();
 static eregister E;
 bool cnd;
-static bool canUpdateCC = true;
+static bool canUpdateCC;
 
-unsigned int perform_dump() {return E.valC;}
-unsigned int perform_none() {return 0;}
+int perform_dump() {return E.valC;}
+int perform_none() {return 0;}
 
 /**
  * [initExecFuncs description]
@@ -46,7 +46,17 @@ eregister getEregister() {
  * [clearEregister description]
  */
 void clearEregister() {
-    clearBuffer((char *) &E, sizeof(E));
+    canUpdateCC = true;
+    E.stat = S_AOK;
+    E.icode = I_NOP;
+    E.ifun = 0;
+    E.valC = 0;
+    E.valA = 0;
+    E.valB = 0;
+    E.dstM = RNONE;
+    E.dstE = RNONE;
+    E.srcA = RNONE;
+    E.srcB = RNONE;
 }
 
 /**
@@ -78,7 +88,7 @@ bool stallM() {
  * [perform_irmovl description]
  * @return [description]
  */
-unsigned int perform_irmovl() {
+int perform_irmovl() {
     return E.valC;
 }
 
@@ -86,7 +96,7 @@ unsigned int perform_irmovl() {
  * [perform_rrmovl description]
  * @return [description]
  */
-unsigned int perform_rrmovl() {
+int perform_rrmovl() {
     setCnd(E.ifun);
     return E.valA;
 }
@@ -95,7 +105,7 @@ unsigned int perform_rrmovl() {
  * [perform_rmmovl description]
  * @return [description]
  */
-unsigned int perform_rmmovl() {
+int perform_rmmovl() {
     return E.valC + E.valB;
 }
 
@@ -103,7 +113,7 @@ unsigned int perform_rmmovl() {
  * [perform_mrmovl description]
  * @return [description]
  */
-unsigned int perform_mrmovl() {
+int perform_mrmovl() {
     return E.valC + E.valB;
 }
 
@@ -111,7 +121,7 @@ unsigned int perform_mrmovl() {
  * [perform_jxx description]
  * @return [description]
  */
-unsigned int perform_jxx() {
+int perform_jxx() {
     setCnd(E.ifun);
     return E.valA;
 }
@@ -120,7 +130,7 @@ unsigned int perform_jxx() {
  * [perform_call description]
  * @return [description]
  */
-unsigned int perform_call() {
+int perform_call() {
     return E.valB - 4;
 }
 
@@ -128,7 +138,7 @@ unsigned int perform_call() {
  * [perform_ret description]
  * @return [description]
  */
-unsigned int perform_ret() {
+int perform_ret() {
     return E.valB + 4;
 }
 
@@ -136,7 +146,7 @@ unsigned int perform_ret() {
  * [perform_push description]
  * @return [description]
  */
-unsigned int perform_push() {
+int perform_push() {
     cnd = 0;
     return -4 + E.valB;
 }
@@ -145,7 +155,7 @@ unsigned int perform_push() {
  * [perform_pop description]
  * @return [description]
  */
-unsigned int perform_pop() {
+int perform_pop() {
     cnd = 0;
     return 4 + E.valB;
 }
@@ -154,7 +164,7 @@ unsigned int perform_pop() {
  * [perform_opl description]
  * @return [description]
  */
-unsigned int perform_opl() {
+int perform_opl() {
     int retn = 0;
     switch(E.ifun) {
         case OP_ADDL:
@@ -246,7 +256,7 @@ void setCnd(unsigned int code) {
             );
             break;
         case CL:
-            cnd = ((getCC(SF) && !getCC(OF)) || (!getCC(SF) && getCC(OF)));
+            cnd = (getCC(SF) && !getCC(OF)) || (!getCC(SF) && getCC(OF));
             break;
         case CE:
             cnd = getCC(ZF);
@@ -255,7 +265,7 @@ void setCnd(unsigned int code) {
             cnd = !getCC(ZF);
             break;
         case CGE:
-            cnd = ((getCC(SF) & getCC(OF)) || (!getCC(SF) && !getCC(OF)));
+            cnd = (getCC(SF) & getCC(OF)) || (!getCC(SF) && !getCC(OF));
             break;
         case CG:
             cnd = (
@@ -326,6 +336,9 @@ void executeStage(forwardType * FORW) {
 
     if (bubbleM(FORW)) {
         clearMregister();
+        if (canUpdateCC) {
+            clearCC();
+        }
     } else if (!stallM()) {
         updateMregister(E.stat, E.icode, cnd, valE, E.valA, dstE, E.dstM);
     }

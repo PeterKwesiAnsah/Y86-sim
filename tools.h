@@ -13,7 +13,7 @@ unsigned int putByteNumber(int byteNo, unsigned char byteValue,
                            unsigned int source);
 unsigned int buildWord(unsigned char byte0, unsigned char byte1, 
                        unsigned char byte2, unsigned char byte3);
-bool isNegative(unsigned int source);
+bool isNegative(int source);
 void expandBits(unsigned int source, char bits[36]);
 void clearBuffer(char * buff, int size);
 int lsr(int x, int n);

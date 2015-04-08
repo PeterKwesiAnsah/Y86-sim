@@ -23,7 +23,7 @@ fregister getFregister() {
  * [clearFregister description]
  */
 void clearFregister() {
-    clearBuffer((char *) &F, sizeof(F));
+    F.predPC = 0;
 }
 
 /**
@@ -153,12 +153,12 @@ void fetchStage(forwardType * FORW) {
     bool ins_valid = valinarr(icode, ins, 14);
 
     unsigned char stat = S_AOK;
-    if (!ins_valid) {
-        stat = S_INS;
-    } else if (memError) {
+    if (memError) {
         stat = S_ADR;
     } else if (icode == I_HALT) {
         stat = S_HLT;
+    } else if (!ins_valid) {
+        stat = S_INS;
     }
 
     unsigned int ins_regid[8] = {

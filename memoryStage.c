@@ -20,7 +20,14 @@ mregister getMregister() {
  * [clearMregister description]
  */
 void clearMregister() {
-    clearBuffer((char *) &M, sizeof(M));
+    canUpdateMemory = true;
+    M.stat = S_AOK;
+    M.icode = I_NOP;
+    M.Cnd = 0;
+    M.valE = 0;
+    M.valA = 0;
+    M.dstE = RNONE;
+    M.dstM = RNONE;
 }
 
 void updateMregister(
@@ -97,7 +104,7 @@ void memoryStage(forwardType * FORW) {
     FORW->m_stat = stat;
 
     if (!stallW(FORW)) {
-        updateWregister(M.stat, M.icode, M.valE, valM, M.dstE, M.dstM);
+        updateWregister(stat, M.icode, M.valE, valM, M.dstE, M.dstM);
     }
 
     // printf(

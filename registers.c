@@ -36,6 +36,15 @@ void clearRegisters() {
 }
 
 /**
+ * [clearCC description]
+ */
+void clearCC() {
+    setCC(OF, 0);
+    setCC(ZF, 0);
+    setCC(SF, 0);
+}
+
+/**
  * [getRegister description]
  * @param  regNum [description]
  * @return        [description]

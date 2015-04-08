@@ -4,6 +4,7 @@
 #include "instructions.h"
 #include "dump.h"
 #include "tools.h"
+#include "registers.h"
 #include "forwarding.h"
 
 static wregister W;
@@ -13,7 +14,12 @@ wregister getWregister() {
 }
 
 void clearWregister() {
-    clearBuffer((char *) &W, sizeof(W));
+    W.stat = S_AOK;
+    W.icode = I_NOP;
+    W.valE = 0;
+    W.valM = 0;
+    W.dstE = RNONE;
+    W.dstM = RNONE;
 }
 
 void updateWregister(
@@ -36,9 +42,22 @@ bool writebackStage(forwardType * FORW) {
     FORW->W_dstM = W.dstM;
     FORW->W_stat = W.stat;
 
-    unsigned int exits[3] = {S_INS, S_HLT, S_ADR};
-    if (valinarr(W.stat, exits, 3)) {
+    if (W.stat == S_INS) {
+        printf("Invalid instruction\n");
+        dumpProgramRegisters();
+        dumpProcessorRegisters();
+        dumpMemory();
         return true;
+    } else if (W.stat == S_ADR) {
+        printf("Invalid memory address\n");
+        dumpProgramRegisters();
+        dumpProcessorRegisters();
+        dumpMemory();
+        return true;
+    } else if (W.stat == S_HLT) {
+        return true;
+    } else {
+        // Status AOK
     }
 
     setRegister(W.dstE, W.valE);

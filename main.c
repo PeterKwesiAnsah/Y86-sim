@@ -33,6 +33,7 @@ int main(int argv, char * args[]) {
 void initialize() {
     clearMemory();
     clearRegisters();
+    clearCC();
     clearFregister();
     clearDregister();
     clearEregister();
