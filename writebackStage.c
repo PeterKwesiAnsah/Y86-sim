@@ -1,18 +1,29 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "writebackStage.h"
+
+#include "forwarding.h"
 #include "instructions.h"
+#include "registers.h"
 #include "dump.h"
 #include "tools.h"
-#include "registers.h"
-#include "forwarding.h"
+
+#include "writebackStage.h"
+
 
 static wregister W;
 
+
+/**
+ * Get the state of the writeback stage struct.
+ * @return The state of the writeback stage struct
+ */
 wregister getWregister() {
     return W;
 }
 
+/**
+ * Reset the writeback stage struct to a default state.
+ */
 void clearWregister() {
     W.stat = S_AOK;
     W.icode = I_NOP;
@@ -22,6 +33,15 @@ void clearWregister() {
     W.dstM = RNONE;
 }
 
+/**
+ * Update the writeback register with the given parameters.
+ * @param stat  Status code
+ * @param icode Instruction code
+ * @param valE  Value E
+ * @param valM  Value M
+ * @param dstE  Destination E
+ * @param dstM  Destination M
+ */
 void updateWregister(
     unsigned int stat, unsigned int icode, unsigned int valE,
     unsigned int valM, unsigned int dstE, unsigned int dstM
@@ -34,6 +54,11 @@ void updateWregister(
     W.dstM = dstM;
 }
 
+/**
+ * Execute the writeback stage.
+ * @param  FORW A pointer to the forwarding struct `forwarding.h`
+ * @return      True if processor should halt, otherwise false
+ */
 bool writebackStage(forwardType * FORW) {
     FORW->W_dstE = W.dstE;
     FORW->W_valE = W.valE;
@@ -75,10 +100,5 @@ bool writebackStage(forwardType * FORW) {
             dumpMemory();
         }
     }
-    
-    // printf(
-    //     "WRITEBACK\t<stat=0x%.2x, icode=0x%.2x, valE=0x%.2x, valM=0x%.2x, dstE=0x%.2x, dstM=0x%.2x>\n",
-    //     W.stat, W.icode, W.valE, W.valM, W.dstE, W.dstM
-    // );
     return false;
 }

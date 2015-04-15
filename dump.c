@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include "forwarding.h"
 #include "dump.h"
 #include "fetchStage.h"
 #include "decodeStage.h"

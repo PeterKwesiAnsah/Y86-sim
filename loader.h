@@ -1,5 +1,3 @@
-#include <stdbool.h>
-
 bool validFileName(char *file_name);
 void discardRest(char *line, FILE * p_file);
 bool hasAddress(char ** record);

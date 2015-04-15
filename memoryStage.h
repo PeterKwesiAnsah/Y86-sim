@@ -11,10 +11,14 @@ typedef struct
     unsigned int dstM; 
 } mregister;
 
-//prototypes for functions called from files other than fetchStage
 mregister getMregister();
 void clearMregister();
-void memoryControl();
-unsigned int memoryAddr();
-void memoryStage();
+void updateMregister(
+    unsigned int stat, unsigned int icode, unsigned int Cnd, unsigned int valE,
+    unsigned int valA, unsigned int dstE, unsigned int dstM
+);
+bool stall_W(forwardType * FORW);
+void mem_ctrl();
+unsigned int mem_addr();
+void memoryStage(forwardType * FORW);
 #endif

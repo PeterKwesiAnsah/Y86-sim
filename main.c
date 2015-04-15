@@ -1,15 +1,32 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include "tools.h"
+
+#include "forwarding.h"
+#include "registers.h"
+#include "loader.h"
 #include "memory.h"
 #include "dump.h"
-#include "loader.h"
-#include "forwarding.h"
+#include "tools.h"
 
+#include "fetchStage.h"
+#include "decodeStage.h"
+#include "executeStage.h"
+#include "memoryStage.h"
+#include "writebackStage.h"
+
+
+static forwardType FORW;
 void initialize();
 
+
+/**
+ * Main function to start and execute processor.
+ * @param  argv Count of cammand-line arguments
+ * @param  args Command-line arguments
+ * @return      Exit status
+ */
 int main(int argv, char * args[]) {
-    forwardType FORW;
     unsigned int clockCount = 0;
     initialize();
     if (!load(argv, args)) {
@@ -23,13 +40,15 @@ int main(int argv, char * args[]) {
             executeStage(&FORW);
             decodeStage(&FORW);
             fetchStage(&FORW);
-            // getchar();
             clockCount++;
         }
         printf("\nTotal clock cycles = %d\n", clockCount);
     }
 }
 
+/**
+ * Initialize the processor before executing stages.
+ */
 void initialize() {
     clearMemory();
     clearRegisters();
@@ -41,5 +60,3 @@ void initialize() {
     clearMregister();
     clearWregister();
 }
-
-

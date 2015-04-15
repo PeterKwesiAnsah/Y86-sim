@@ -1,13 +1,13 @@
 typedef struct {
+    unsigned int d_srcA;
+    unsigned int d_srcB;
+    unsigned int D_icode;
+    
     unsigned int e_dstE;
     unsigned int e_valE;
     unsigned int E_dstM;
     unsigned int e_Cnd;
     unsigned int E_icode;
-
-    unsigned int d_srcA;
-    unsigned int d_srcB;
-    unsigned int D_icode;
 
     unsigned int M_valE;
     unsigned int m_valM;

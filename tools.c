@@ -194,20 +194,20 @@ void clearBuffer(char * buff, int size) {
 
 
 /**
- * [lsr description]
- * @param  x [description]
- * @param  n [description]
- * @return   [description]
+ * Logical right shift in 0s.
+ * @param  x Value to be shifted
+ * @param  n Shift amount
+ * @return   Value shifted by n with 0s
  */
 int lsr(int x, int n) {
   return (int)((unsigned int)x >> n);
 }
 
 /**
- * [revchararr description]
- * @param  arr  [description]
- * @param  size [description]
- * @return      [description]
+ * Reverse a character array.
+ * @param  arr  Array to be reversed
+ * @param  size Size of the given array
+ * @return      Reversed array
  */
 unsigned char * revchararr(unsigned char * arr, unsigned short int size) {
   unsigned short int senti = 0;
@@ -221,9 +221,9 @@ unsigned char * revchararr(unsigned char * arr, unsigned short int size) {
 }
 
 /**
- * [remchars description]
- * @param str [description]
- * @param c   [description]
+ * Remove all the occurances of a given character from a string.
+ * @param str String to remove characters from
+ * @param c   Character to remove from string
  */
 void remchars(char *str, char c) {
   char *pr = str, *pw = str;
@@ -235,10 +235,11 @@ void remchars(char *str, char c) {
 }
 
 /**
- * [valinarr description]
- * @param val  [description]
- * @param arr  [description]
- * @param size [description]
+ * Check if a given value exists in a given array (requires the array size)
+ * @param  val  Value to check for
+ * @param  arr  Array to iterate through
+ * @param  size Size of the given array
+ * @return      True if value is found in array, otherwise false
  */
 bool valinarr(int val, int * arr, int size) {
   int i;
@@ -251,9 +252,9 @@ bool valinarr(int val, int * arr, int size) {
 }
 
 /**
- * [chopStart description]
- * @param str [description]
- * @param n   [description]
+ * Remove the given amount of characters from the beginning of a string.
+ * @param str String to remove characters from
+ * @param n   Amount of characters to string from the beginning
  */
 void chopStart(char *str, size_t n) {
   assert(n != 0 && str != 0);
@@ -265,9 +266,9 @@ void chopStart(char *str, size_t n) {
 }
 
 /**
- * [isxstr description]
- * @param  str [description]
- * @return     [description]
+ * Determines if a given string is hexadecimal.
+ * @param  str String to be checked
+ * @return     True if string is valid hex, otherwise false
  */
 bool isxstr(char *str) {
   bool valid = true;
@@ -283,9 +284,9 @@ bool isxstr(char *str) {
 }
 
 /**
- * [strdup description]
- * @param  str [description]
- * @return     [description]
+ * Helper function for *splitString*, manages string copy.
+ * @param  str String to copy into memory.
+ * @return     Copied string.
  */
 char * strdup(const char *str) {
     int n = strlen(str) + 1;
@@ -297,9 +298,11 @@ char * strdup(const char *str) {
 }
 
 /**
- * [splitString description]
- * @param  line [description]
- * @return      [description]
+ * Extract a record from a given line into a give record with a given delimeter.
+ * @param  line       Line to extract record from
+ * @param  sve_record Pointer to save extracted record to
+ * @param  split      Delimiting character (most likely ' ')
+ * @return            Size of the extracted record
  */
 size_t splitString(char *line, char ***sve_record, char *split) {
   if (line == NULL || sve_record == NULL) {
@@ -326,6 +329,11 @@ size_t splitString(char *line, char ***sve_record, char *split) {
   return size;
 }
 
+/**
+ * Check for the pipe character in a valid `.yo` file.
+ * @param  line A string representing a line in a `.yo` file
+ * @return      Index position of the pipe character (-1 if not found)
+ */
 int checkPipe(char * line) {
   unsigned int i;
   for (i = 0; i < strlen(line); i++) {

@@ -1,21 +1,23 @@
 #include <stdio.h>
+#include <stdbool.h>
+
+#include "forwarding.h"
+#include "instructions.h"
+#include "registers.h"
+#include "tools.h"
+
 #include "executeStage.h"
 #include "memoryStage.h"
-#include "forwarding.h"
-#include "registers.h"
-#include "instructions.h"
-#include "tools.h"
+
 
 static int (*funcptr[16])();
 static eregister E;
-bool cnd;
+static bool cnd;
 static bool canUpdateCC;
 
-int perform_dump() {return E.valC;}
-int perform_none() {return 0;}
 
 /**
- * [initExecFuncs description]
+ * Initialize the execution function array.
  */
 void initExecFuncs() {
     funcptr[I_HALT] = &perform_none;
@@ -35,15 +37,15 @@ void initExecFuncs() {
 }
 
 /**
- * [getEregister description]
- * @return [description]
+ * Get the state of the execute stage struct.
+ * @return The state of the execute stage struct
  */
 eregister getEregister() {
     return E;
 }
 
 /**
- * [clearEregister description]
+ * Reset the execute stage struct to a default state.
  */
 void clearEregister() {
     canUpdateCC = true;
@@ -60,11 +62,19 @@ void clearEregister() {
 }
 
 /**
- * [bubbleM description]
- * @param  FORW [description]
- * @return      [description]
+ * Determines if the memory stage needs to be stalled.
+ * @return False
  */
-bool bubbleM(forwardType * FORW) {
+bool stall_M() {
+    return false;
+}
+
+/**
+ * Determines if the memory stage needs to be bubbled
+ * @param  FORW A pointer to the forwarding struct `forwarding.h`
+ * @return      True if the memeory stage needs to be bubbled, otherwise false
+ */
+bool bubble_M(forwardType * FORW) {
     return (
         (
             FORW->m_stat == S_ADR || FORW->m_stat == S_INS ||
@@ -77,24 +87,32 @@ bool bubbleM(forwardType * FORW) {
 }
 
 /**
- * [stallM description]
- * @return [description]
+ * Perform a dump instruction.
+ * @return Value C
  */
-bool stallM() {
-    return false;
+int perform_dump() {
+    return E.valC;
 }
 
 /**
- * [perform_irmovl description]
- * @return [description]
+ * Perform nothing.
+ * @return 0
+ */
+int perform_none() {
+    return 0;
+}
+
+/**
+ * Perform an irmovl instruction.
+ * @return Value C
  */
 int perform_irmovl() {
     return E.valC;
 }
 
 /**
- * [perform_rrmovl description]
- * @return [description]
+ * Perform an rrmovl instruction.
+ * @return Value A
  */
 int perform_rrmovl() {
     setCnd(E.ifun);
@@ -102,24 +120,24 @@ int perform_rrmovl() {
 }
 
 /**
- * [perform_rmmovl description]
- * @return [description]
+ * Perform an rmmovl instruction.
+ * @return Value C + Value B
  */
 int perform_rmmovl() {
     return E.valC + E.valB;
 }
 
 /**
- * [perform_mrmovl description]
- * @return [description]
+ * Perform an mrmovl instruction.
+ * @return Value C + Value B
  */
 int perform_mrmovl() {
     return E.valC + E.valB;
 }
 
 /**
- * [perform_jxx description]
- * @return [description]
+ * Perform a jump instruction.
+ * @return Value A
  */
 int perform_jxx() {
     setCnd(E.ifun);
@@ -127,24 +145,24 @@ int perform_jxx() {
 }
 
 /**
- * [perform_call description]
- * @return [description]
+ * Perform a call instruction.
+ * @return Value B - 4
  */
 int perform_call() {
     return E.valB - 4;
 }
 
 /**
- * [perform_ret description]
- * @return [description]
+ * Perform a return isntruction.
+ * @return Value B + 4
  */
 int perform_ret() {
     return E.valB + 4;
 }
 
 /**
- * [perform_push description]
- * @return [description]
+ * Perform a push instruction.
+ * @return -4 + Value B
  */
 int perform_push() {
     cnd = 0;
@@ -152,8 +170,8 @@ int perform_push() {
 }
 
 /**
- * [perform_pop description]
- * @return [description]
+ * Perform a pop instruction.
+ * @return 4 + Value B
  */
 int perform_pop() {
     cnd = 0;
@@ -161,8 +179,8 @@ int perform_pop() {
 }
 
 /**
- * [perform_opl description]
- * @return [description]
+ * Perform an arithmetic instruction.
+ * @return Calculated arithmetic function
  */
 int perform_opl() {
     int retn = 0;
@@ -220,8 +238,8 @@ int perform_opl() {
 }
 
 /**
- * [updateCC description]
- * @param val [description]
+ * Update the condition codes.
+ * @param val Calculated value from arithmetic instructions.
  */
 void updateCC(int val) {
     if (!canUpdateCC) {
@@ -240,8 +258,8 @@ void updateCC(int val) {
 }
 
 /**
- * [setCnd description]
- * @param code [description]
+ * Set the condition flag states.
+ * @param code Flag representing <=, <, ==, !=, >=, >
  */
 void setCnd(unsigned int code) {
     switch (code) {
@@ -280,17 +298,17 @@ void setCnd(unsigned int code) {
 }
 
 /**
- * [updateEregister description]
- * @param stat  [description]
- * @param icode [description]
- * @param ifun  [description]
- * @param valC  [description]
- * @param valA  [description]
- * @param valB  [description]
- * @param dstE  [description]
- * @param dstM  [description]
- * @param srcA  [description]
- * @param srcB  [description]
+ * Update the execute state with the given parameters
+ * @param stat  Status code
+ * @param icode Instruction code
+ * @param ifun  Instruction function
+ * @param valC  Value C
+ * @param valA  Value A
+ * @param valB  Value B
+ * @param dstE  Destination E
+ * @param dstM  Destination M
+ * @param srcA  Source A
+ * @param srcB  Source B
  */
 void updateEregister(
     unsigned int stat, unsigned int icode, unsigned int ifun,
@@ -310,8 +328,8 @@ void updateEregister(
 }
 
 /**
- * [executeStage description]
- * @param FORW [description]
+ * Execute the execute stage.
+ * @param FORW A pointer to the forwarding struct `forwarding.h`
  */
 void executeStage(forwardType * FORW) {
     cnd = false;
@@ -334,17 +352,12 @@ void executeStage(forwardType * FORW) {
     FORW->e_Cnd = cnd;
     FORW->E_icode = E.icode;
 
-    if (bubbleM(FORW)) {
+    if (bubble_M(FORW)) {
         clearMregister();
         if (canUpdateCC) {
             clearCC();
         }
-    } else if (!stallM()) {
+    } else if (!stall_M()) {
         updateMregister(E.stat, E.icode, cnd, valE, E.valA, dstE, E.dstM);
     }
-
-    // printf(
-    //     "EXECUTE\t\t<stat=0x%.2x, icode=0x%.2x, ifun=0x%.2x, valC=0x%.2x, valA=0x%.2x, valB=0x%.2x, dstE=0x%.2x, dstM=0x%.2x, srcA=0x%.2x, srcB=0x%.2x>\n",
-    //     E.stat, E.icode, E.ifun, E.valC, E.valA, E.valB, E.dstE, E.dstM, E.srcA, E.srcB
-    // );
 }
