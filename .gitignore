@@ -32,4 +32,5 @@ sftp-config.json
 run.pl
 Inputs/
 Tests/
+lab11/
 *.yo
