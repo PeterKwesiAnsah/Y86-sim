@@ -1,0 +1,59 @@
+        .pos 0x0
+        
+init:   irmovl array1, %ecx
+        irmovl array2, %edx
+        irmovl $4, %esi 
+        mrmovl (%ecx), %edi  
+        rmmovl %edi, 0(%edx)
+        addl %esi, %ecx
+        addl %esi, %edx 
+        nop
+        mrmovl (%ecx), %edi 
+        nop 
+        nop
+        rmmovl %edi, 0(%edx)
+        addl %esi, %ecx
+        addl %esi, %edx 
+        nop 
+        mrmovl (%ecx), %edi 
+        nop 
+        nop
+        rmmovl %edi, 0(%edx)
+        addl %esi, %ecx
+        addl %esi, %edx 
+        nop 
+        mrmovl (%ecx), %edi 
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        addl %esi, %ecx
+        addl %esi, %edx 
+        nop
+        mrmovl (%ecx), %edi 
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        addl %esi, %ecx
+        addl %esi, %edx 
+        nop
+        mrmovl (%ecx), %edi 
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        dump 4
+        halt
+
+        .pos 0x100
+        .align 4
+array1: .long 0
+        .long 1
+        .long 2
+        .long 3
+        .long 4
+        .long 5
+array2: .long 0
+        .long 0
+        .long 0
+        .long 0
+        .long 0
+        .long 0

@@ -1,0 +1,103 @@
+            .pos 0x0
+
+init:       irmovl  $1, %edx
+            irmovl  array, %edi
+
+start:      irmovl  $1, %ecx        # Forward e_valE for valA
+            subl    %ecx, %edx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx        # Forward M_valE for valA
+            nop
+            subl    %ecx, %edx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx
+            rmmovl  $1, %edi        # Forward m_valM for valA
+            nop
+            nop
+            nop
+            mrmovl  (%edi), %ecx
+            nop
+            subl    %ecx, %edx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx        # Forward W_valE for valA
+            nop
+            nop
+            subl    %ecx, %edx
+            nop
+            nop
+            nop
+            
+            irmovl  $1, %ecx
+            rmmovl  $1, %edi        # Forward W_valM for valA
+            nop
+            nop
+            nop
+            mrmovl  (%edi), %ecx
+            nop
+            nop
+            subl    %ecx, %edx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx        # Forward e_valE for valB
+            subl    %edx, %ecx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx        # Forward M_valE for valB
+            nop
+            subl    %edx, %ecx
+            nop
+            nop
+            nop
+            
+            irmovl  $1, %ecx
+            rmmovl  $1, %edi        # Forward m_valM for valB
+            nop
+            nop
+            nop
+            mrmovl  (%edi), %ecx
+            nop
+            subl    %edx, %ecx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx        # Forward W_valE for valB
+            nop
+            nop
+            subl    %edx, %ecx
+            nop
+            nop
+            nop
+
+            irmovl  $1, %ecx
+            rmmovl  $1, %edi        # Forward W_valM for valB
+            nop
+            nop
+            nop
+            mrmovl  (%edi), %ecx
+            nop
+            nop
+            subl    %edx, %ecx
+            nop
+            nop
+            nop
+
+            halt
+
+
+            .pos 0x100
+            .align 4
+array:      .long 0

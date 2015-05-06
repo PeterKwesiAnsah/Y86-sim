@@ -30,7 +30,7 @@
 
 sftp-config.json
 run.pl
-Inputs/
+#Inputs/
 Tests/
 lab11/
 *.yo

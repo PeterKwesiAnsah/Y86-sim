@@ -1,0 +1,94 @@
+#
+#    This file tests the call and return instructions
+#    by calling a recursive maxTree function. The maxTree
+#    function finds the maximum value in a binary tree.
+#
+#    Don't change this code
+        .pos 0
+        irmovl Stack, %esp
+        irmovl Stack, %ebp
+        jmp Main
+#
+#    Don't change this code
+Main:   irmovl root, %ecx               # root of binary tree
+        pushl %ecx
+        call maxTree                    # gets max of tree; result in %eax
+        dump 7
+        halt
+#
+#       int maxTree(Tree * treeptr)
+#       {
+#          if (treeptr == NULL)
+#              return 0;
+#          else if (treeptr->right == NULL)
+#              return treeptr->value
+#          else
+#              return maxTree(treeptr->right)
+#
+#       }
+#
+#    Your work goes here
+maxTree: #this function is missing
+         pushl %ebp
+         rrmovl %esp, %ebp
+         mrmovl 8(%ebp), %ebx
+         irmovl $4, %ecx
+         mrmovl(%ebx), %ebx
+         irmovl $0, %edi
+         addl %edi, %ebx
+         je end
+
+         nop
+         nop
+
+         popl %eax
+         addl %ecx, %eax
+         mrmovl (%eax), %eax
+         subl %edi, %eax
+         je end
+         rmmovl %eax, (%esp)
+         call maxTree
+
+end:
+         ret
+         nop
+         nop
+         nop
+
+#    Don't change this code
+         .align 4
+root:    .long t1         #pointer to left node
+         .long t2         #pointer to right node
+         .long 0x12       #value of node
+
+t1:      .long t3 
+         .long t4
+         .long 0x8
+
+t3:      .long 0 
+         .long 0
+         .long 0x3
+
+t4:      .long 0 
+         .long 0
+         .long 0x8
+
+t2:      .long t5
+         .long t6
+         .long 0x20
+
+t5:      .long 0
+         .long 0
+         .long 0x16
+
+t6:      .long 0
+         .long t7
+         .long 0x22
+
+t7:      .long 0
+         .long 0
+         .long 0x24
+
+         .pos 0x400
+Stack:
+

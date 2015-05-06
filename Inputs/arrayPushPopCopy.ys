@@ -1,0 +1,141 @@
+        .pos 0x0
+
+init:   irmovl array1, %ecx
+        irmovl array2, %edx
+        irmovl $24, %esi
+        nop
+        nop
+        nop
+        addl %esi, %edx
+        irmovl stack, %esp
+        nop
+        nop
+        nop
+istk:   rrmovl %esp, %ebp
+        irmovl $4, %esi
+        
+push:   mrmovl (%ecx), %edi
+        nop
+        nop
+        pushl %edi
+        addl %esi, %ecx
+        nop
+        nop
+        nop
+        mrmovl (%ecx), %edi
+        nop
+        nop
+        nop
+        pushl %edi
+        addl %esi, %ecx
+        nop
+        nop
+        nop
+        mrmovl (%ecx), %edi
+        nop
+        nop
+        nop
+        pushl %edi
+        addl %esi, %ecx
+        nop
+        nop
+        nop
+        mrmovl (%ecx), %edi
+        nop
+        nop
+        nop
+        pushl %edi
+        addl %esi, %ecx
+        nop
+        nop
+        nop
+        mrmovl (%ecx), %edi
+        nop
+        nop
+        nop
+        pushl %edi
+        addl %esi, %ecx
+        nop
+        nop
+        nop
+        mrmovl (%ecx), %edi
+        nop
+        nop
+        nop
+        pushl %edi
+
+pop:    nop
+        nop
+        nop
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        nop
+        nop
+        nop
+        subl %esi, %edx
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        nop
+        nop
+        nop
+        subl %esi, %edx
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        nop
+        nop
+        nop
+        subl %esi, %edx
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        nop
+        nop
+        nop
+        subl %esi, %edx
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+        nop
+        nop
+        nop
+        subl %esi, %edx
+        popl %edi
+        nop
+        nop
+        nop
+        rmmovl %edi, 0(%edx)
+       
+dstk:   popl %ebp
+        dump 4
+        halt
+
+        .pos 0x100
+        .align 4
+array1: .long 0
+        .long 1
+        .long 2
+        .long 3
+        .long 4
+        .long 5
+array2: .long 0
+        .long 0
+        .long 0
+        .long 0
+        .long 0
+        .long 0
+
+        .pos 0x200
+stack:  .long 0
